@@ -3,8 +3,9 @@ extra/ dataset/
 **/extra dataset
 **/.DS_Store
 **/__pycache__
-**/milestone 2
 **/Milestone2_e
 milestone 1/paper.txt
 **/__MACOSX/
 github
+milestone 2/baseline/GoogleNews-vectors-negative300.bin.gz
+milestone 2/baseline/FNC_model
