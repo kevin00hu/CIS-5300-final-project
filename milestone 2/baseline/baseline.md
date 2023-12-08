@@ -11,18 +11,23 @@
   
 ### Running instruction
 Prerequire python package:
+
 `pip install -r requirements.txt`
 
 First we need to get into the the code directory:
+
 `cd "milestone 2/baseline"`
 
-baseline.py
+baseline.py:
+
 `python3 baseline.py`
 
-baseline_FNC_model.ipynb, baseline_FNC_feature_.ipynb
+baseline_FNC_model.ipynb, baseline_FNC_feature_.ipynb:
+
 These two files are jupyter notebook, which can simply use `run all`.
 
-stong_baseline.py
+stong_baseline.py:
+
 `python3 strong_baseline.py` 
 
 ### Result
@@ -32,4 +37,4 @@ The confusion matrix and loss trending plots are saved in `./plots` directory.
 | baseline  | 64.72%   | 0.40    |
 | FNC_model | 64.85%   | 0.51    |
 | base_line + FNC_feature | 62.11% | 0.45 |
-| LSTM | 0.65 | 0.35 |
+| LSTM | 64.56% | 0.35 |
