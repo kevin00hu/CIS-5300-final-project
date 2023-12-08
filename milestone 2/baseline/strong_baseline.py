@@ -9,21 +9,23 @@ from dataset import dataset
 
 # LSTM Model Definition
 class LSTMModel(nn.Module):
-    def __init__(self, input_size, hidden_layer_size=100, output_size=2):
+    def __init__(self, input_size, hidden_layer_size=128, output_size=2, num_layers=2, dropout=0.5):
         super(LSTMModel, self).__init__()
         self.hidden_layer_size = hidden_layer_size
 
-        self.lstm = nn.LSTM(input_size, hidden_layer_size)
-
+        # Set batch_first=True so that the input is expected to be of shape [batch_size, seq_length, features]
+        self.lstm = nn.LSTM(input_size, hidden_layer_size, num_layers=num_layers, dropout=dropout, batch_first=True)
+        self.dropout = nn.Dropout(dropout)
         self.linear = nn.Linear(hidden_layer_size, output_size)
 
-        self.hidden_cell = (torch.zeros(1,1,self.hidden_layer_size),
-                            torch.zeros(1,1,self.hidden_layer_size))
-
-    def forward(self, input_seq):
-        lstm_out, self.hidden_cell = self.lstm(input_seq.view(len(input_seq), 1, -1), self.hidden_cell)
-        predictions = self.linear(lstm_out.view(len(input_seq), -1))
-        return predictions
+    def forward(self, x):
+        # Reshape x to [batch_size, 1, input_size] if it is not already
+        if x.dim() < 3:
+            x = x.unsqueeze(1)
+        lstm_out, _ = self.lstm(x)
+        lstm_out = self.dropout(lstm_out[:, -1, :])
+        out = self.linear(lstm_out)
+        return out
 
 # Initialize Dataset
 ds = dataset()
