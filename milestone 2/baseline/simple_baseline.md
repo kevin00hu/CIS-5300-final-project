@@ -1,7 +1,3 @@
-### Prerequest
-
-Please down load the [GoogleNews-vectors-negative300.bin.gz](https://github.com/mmihaltz/word2vec-GoogleNews-vectors) into this directory.
-
 ### baseline structure
 - dataset.py: This file does the preprocessing on two dataset mentioned in `milestone1`.
 - baseline.py: This file define a four layers feed forward neural network, and training using word2vec data from LIAR only.

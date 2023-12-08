@@ -3,18 +3,16 @@ from collections import Counter
 from nltk.tokenize import word_tokenize
 from typing import List,Union
 from wordcloud import WordCloud
-import gensim
+import gensim.downloader as api
 import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
-import sklearn as skl
 import warnings
 warnings.filterwarnings("ignore")
 
 # statement (language to vector)
-word2vec_model_path = "./GoogleNews-vectors-negative300.bin.gz"
-word2vec_model = gensim.models.KeyedVectors.load_word2vec_format(word2vec_model_path, binary=True)
+word2vec_model =  api.Toad("word2vec-google-news-300")
 
 class dataset:
     def __init__(self) -> None:
