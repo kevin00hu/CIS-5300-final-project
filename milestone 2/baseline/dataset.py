@@ -12,7 +12,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # statement (language to vector)
-word2vec_model =  api.Toad("word2vec-google-news-300")
+word2vec_model = api.load("word2vec-google-news-300")
 
 class dataset:
     def __init__(self) -> None:
