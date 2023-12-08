@@ -22,11 +22,7 @@ class LSTMModel(nn.Module):
         if x.dim() < 3:
             x = x.unsqueeze(1)
         lstm_out, _ = self.lstm(x)
-<<<<<<< HEAD
         lstm_out = self.dropout(lstm_out[:, -1, :]) # Use only the last output of the sequence
-=======
-        lstm_out = self.dropout(lstm_out[:, -1, :])
->>>>>>> 19d386be5a62afddb89e8ee136e046014f647494
         out = self.linear(lstm_out)
         return out
 
