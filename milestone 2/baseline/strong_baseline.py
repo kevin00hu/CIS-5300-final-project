@@ -5,7 +5,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
-from dataset import dataset  # Assuming the 'dataset' class is defined as in your previous code
+from dataset import dataset
 
 # LSTM Model Definition
 class LSTMModel(nn.Module):
