@@ -9,6 +9,7 @@
   - each `->` means a model, `+` means the data concatenation process(torch.concat with axis = 1)
 - stong_baseline.py: Training a LSTM model as our strong baseline. 
 - score.py: Contains the evaluation metrics and confusion matrix plot used by baselines
+
 ### Running instruction
 Prerequire python package:
 
