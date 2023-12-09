@@ -8,7 +8,7 @@
   - LIAR average word embedding(None, 300) -> FNC_model(None, 2) +  LIAR(None, 300) -> predict result(None, 2)
   - each `->` means a model, `+` means the data concatenation process(torch.concat with axis = 1)
 - stong_baseline.py: Training a LSTM model as our strong baseline. 
-  
+- score.py: Contains the evaluation metrics and confusion matrix plot used by baselines
 ### Running instruction
 Prerequire python package:
 
@@ -29,6 +29,11 @@ These two files are jupyter notebook, which can simply use `run all`.
 stong_baseline.py:
 
 `python3 strong_baseline.py` 
+
+score.py:
+
+`python3 score.py ./output/y_test_baseline.npy ./output/y_pred_baseline.npy` 
+
 
 ### Result
 The confusion matrix and loss trending plots are saved in `./plots` directory.

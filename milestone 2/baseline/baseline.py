@@ -94,11 +94,15 @@ if __name__ == "__main__":
         test_f1 = f1_score(test_y, test_pred)
         print(f"test accuracy: {test_accuracy} | test f1 score: {test_f1}")
 
+    np.save("./output/y_test_baseline.npy", test_y)
+    np.save("./output/y_pred_baseline.npy", test_pred)
+
     cm = confusion_matrix(test_y, test_pred)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm)
     disp.plot()
     plt.savefig("./plots/baseline_cm.png")
     plt.clf()
+
 
     plt.plot(range(len(train_loss_records)), train_loss_records, label = "train")
     plt.plot(range(len(val_loss_records)), val_loss_records, label = "validation")

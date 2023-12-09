@@ -97,6 +97,11 @@ train_loss, val_loss = train_model(model, train_loader, val_X, val_y, epochs=10)
 with torch.no_grad():
     test_pred = model(test_X.to(device))
     test_pred_labels = np.argmax(test_pred.cpu().numpy(), axis=1)
+
+    np.save("./output/y_test_strong.npy", test_y)
+    np.save("./output/y_pred_strong.npy", test_pred_labels)
+
+
     test_accuracy = accuracy_score(test_y.numpy(), test_pred_labels)
     test_f1 = f1_score(test_y.numpy(), test_pred_labels)
 

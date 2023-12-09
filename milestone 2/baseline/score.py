@@ -1,8 +1,11 @@
+import os
 import numpy as np
 import argparse
 import seaborn as sns
 from sklearn.metrics import accuracy_score, precision_score, recall_score, \
     f1_score, confusion_matrix
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def evaluate(y_true_path, y_pred_path):
@@ -23,7 +26,7 @@ def evaluate(y_true_path, y_pred_path):
     print(f'F1 Score: {f1}')
 
 
-def plot_confusion_matrix(y_true_path, y_pred_path, binary=1):
+def plot_confusion_matrix(y_true_path, y_pred_path, binary=1, model_name=""):
     """ Plot the confusion matrix for the target labels and predictions """
     y_pred = np.load(y_pred_path)
     y_test = np.load(y_true_path)
@@ -41,6 +44,8 @@ def plot_confusion_matrix(y_true_path, y_pred_path, binary=1):
     sns.heatmap(df_cm, annot=True, fmt='.0f', cmap="YlGnBu",
                 annot_kws={"size": 10})  # font size
     plt.show()
+    plt.savefig("./plots/cm_"+model_name+".png")
+
 
 
 def main():
@@ -55,9 +60,12 @@ def main():
     # Parse the command-line arguments
     args = parser.parse_args()
 
+    model_name = os.path.splitext(os.path.basename(args.y_pred_path))[0].split('_')[-1]
+
+
     # Run the evaluation
     evaluate(args.y_true_path, args.y_pred_path)
-    plot_confusion_matrix(args.y_true_path, args.y_pred_path)
+    plot_confusion_matrix(args.y_true_path, args.y_pred_path, model_name=model_name)
 
 
 if __name__ == '__main__':
