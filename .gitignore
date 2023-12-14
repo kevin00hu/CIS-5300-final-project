@@ -9,3 +9,6 @@ milestone 1/paper.txt
 github
 milestone 2/baseline/GoogleNews-vectors-negative300.bin.gz
 milestone 2/baseline/FNC_model
+milestone 2/baseline/LSTM_model
+milestone 2/baseline/LSTM_prediction.npy
+milestone 3/**

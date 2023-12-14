@@ -1,23 +1,19 @@
 #encoding=utf-8
 from collections import Counter
 from nltk.tokenize import word_tokenize
-from typing import List,Union
-from wordcloud import WordCloud
+from typing import List
 import gensim.downloader as api
-import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
 import warnings
 warnings.filterwarnings("ignore")
 
-# statement (language to vector)
-word2vec_model = api.load("word2vec-google-news-300")
 
 class dataset:
-    def __init__(self) -> None:
-        self.FNC_PATH  = "./dataset/FNC-1"
-        self.LIAR_PATH = "./dataset/LIAR"
+    def __init__(self, FNC_PATH = "./dataset/FNC-1", LIAR_PATH = "./dataset/LIAR", word2vec = True) -> None:
+        self.FNC_PATH  = FNC_PATH
+        self.LIAR_PATH = LIAR_PATH
 
         FNC_train, FNC_val, FNC_test = self.load_dataset(self.FNC_PATH)
         LIAR_train, LIAR_val, LIAR_test = self.load_dataset(self.LIAR_PATH, header = None)
@@ -28,6 +24,11 @@ class dataset:
         self.FNC_data = [FNC_train, FNC_val, FNC_test]
         self.LIAR_data = [LIAR_train, LIAR_val, LIAR_test]
 
+        self.word2vec = word2vec
+        if self.word2vec:
+            global word2vec_model
+            # statement (language to vector)
+            word2vec_model = api.load("word2vec-google-news-300")
         self.preprocess()
 #+------------------------------------------------------------------------------------------------------+
     # utils
@@ -106,14 +107,15 @@ class dataset:
         merged_FNC_df['X'] = merged_FNC_df["Headline"] + merged_FNC_df["articleBody"]
 
 
-        merged_FNC_df = merged_FNC_df.reset_index(drop=True)
-        merged_FNC_df["statement_wv"] = merged_FNC_df["X"].apply(self.get_word2vec)
+        if self.word2vec:
+            merged_FNC_df = merged_FNC_df.reset_index(drop=True)
+            merged_FNC_df["statement_wv"] = merged_FNC_df["X"].apply(self.get_word2vec)
 
-            # split a column of list to 300 columns 
-        temp_df = pd.DataFrame(merged_FNC_df["statement_wv"].to_list(), columns=[f"vector_{i+1}" for i in range(300)])
-        merged_FNC_df = pd.concat([merged_FNC_df, temp_df], axis = 1)
+                # split a column of list to 300 columns 
+            temp_df = pd.DataFrame(merged_FNC_df["statement_wv"].to_list(), columns=[f"vector_{i+1}" for i in range(300)])
+            merged_FNC_df = pd.concat([merged_FNC_df, temp_df], axis = 1)
 
-        self.FNC_data = self.split_merged_dataset(merged_FNC_df, length_list)
+            self.FNC_data = self.split_merged_dataset(merged_FNC_df, length_list)
 
     # LIAR part
     def preprocess_LIAR(self)->None:
@@ -176,21 +178,26 @@ class dataset:
         merged_LIAR_df['party_democrat'] = merged_LIAR_df["party affiliation"] == "democrat"
         merged_LIAR_df['party_republican'] = merged_LIAR_df["party affiliation"] == "republican"
 
-        
-        merged_LIAR_df = merged_LIAR_df.reset_index(drop=True)
+        drop_columns = ["statement ID", "subject(s)", "speaker", "speaker's job title", "state", "raw_state",
+                                                    "barely true", "false", "half true", "mostly true", "pants on fire", 
+                                                    "context(location)", "party affiliation"]
 
-        # average word2vec
-            # applying word2vec on word level and average them.
-        merged_LIAR_df["statement_wv"] = merged_LIAR_df["statement"].apply(self.get_word2vec)
+        if self.word2vec:
+            merged_LIAR_df = merged_LIAR_df.reset_index(drop=True)
 
-            # split a column of list to 300 columns 
-        temp_df = pd.DataFrame(merged_LIAR_df["statement_wv"].to_list(), columns=[f"vector_{i+1}" for i in range(300)])
-        merged_LIAR_df = pd.concat([merged_LIAR_df, temp_df], axis = 1)
+            # average word2vec
+                # applying word2vec on word level and average them.
+            merged_LIAR_df["statement_wv"] = merged_LIAR_df["statement"].apply(self.get_word2vec)
+
+                # split a column of list to 300 columns 
+            temp_df = pd.DataFrame(merged_LIAR_df["statement_wv"].to_list(), columns=[f"vector_{i+1}" for i in range(300)])
+            merged_LIAR_df = pd.concat([merged_LIAR_df, temp_df], axis = 1)
+
+            drop_columns.append("statement")
+            drop_columns.append("statement_wv")
 
             # drop columns
-        merged_LIAR_df = merged_LIAR_df.drop(columns = ["statement ID", "subject(s)", "speaker", "speaker's job title", "state", "raw_state",
-                                                    "barely true", "false", "half true", "mostly true", "pants on fire", 
-                                                    "context(location)", "party affiliation", "statement", "statement_wv"])
+        merged_LIAR_df = merged_LIAR_df.drop(columns = drop_columns)
         merged_LIAR_df = merged_LIAR_df *1 
         self.LIAR_data = self.split_merged_dataset(merged_LIAR_df, length_list)
 #+------------------------------------------------------------------------------------------------------+

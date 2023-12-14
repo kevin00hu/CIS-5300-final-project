@@ -43,4 +43,4 @@ The confusion matrix and loss trending plots are saved in `./plots` directory.
 | baseline  | 64.72%   | 0.40    |
 | FNC_model | 64.85%   | 0.51    |
 | base_line + FNC_feature | 62.11% | 0.45 |
-| LSTM | 64.56% | 0.35 |
+| LSTM | 57.77% | 0.55 |
