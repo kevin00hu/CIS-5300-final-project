@@ -7,12 +7,14 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 from torch.utils.data import  Dataset, DataLoader
 import gensim.downloader as api
 import matplotlib.pyplot as plt
+import nltk
 import numpy as np
 import string
 import torch
 import torch.nn as nn
 
 torch.manual_seed(0)
+nltk.download("stopwords")
 
 # loading dataset
 FNC_PATH="./dataset/FNC-1"
