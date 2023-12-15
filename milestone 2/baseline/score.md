@@ -15,7 +15,7 @@ Prerequire python package:
 
 `pip install -r requirements.txt`
 
-First we need to get into the the code directory:
+First we need to get into the code directory:
 
 `cd "milestone 2/baseline"`
 
@@ -33,14 +33,14 @@ stong_baseline.py:
 
 score.py:
 
-`python3 score.py ./output/y_test_baseline.npy ./output/y_pred_baseline.npy` 
-
+`python3 score.py ./output/y_test_baselie.npy ./output/y_pred_baseline.npy` 
+`python3 score.py ./output/y_test_strong.npy ./output/y_pred_strong.npy` 
 
 ### Result
 The confusion matrix and loss trending plots are saved in `./plots` directory.
-| model     | accuracy | f1 score|
-| --------- | -------- | ------- |
-| baseline  | 64.72%   | 0.40    |
-| FNC_model | 64.85%   | 0.51    |
-| base_line + FNC_feature | 62.11% | 0.45 |
-| LSTM | 57.77% | 0.55 |
+| Model                  | Accuracy | F1 Score |
+|------------------------|----------|----------|
+| Baseline               | 64.72%   | 0.40     |
+| FNC_model              | 64.85%   | 0.51     |
+| Baseline + FNC_feature | 62.11%   | 0.45     |
+| LSTM                   | 57.77%   | 0.55     |

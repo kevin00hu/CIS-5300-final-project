@@ -44,8 +44,7 @@ def plot_confusion_matrix(y_true_path, y_pred_path, binary=1, model_name=""):
     sns.heatmap(df_cm, annot=True, fmt='.0f', cmap="YlGnBu",
                 annot_kws={"size": 10})  # font size
     plt.show()
-    plt.savefig("./plots/cm_"+model_name+".png")
-
+    plt.savefig("./plots/cm_" + model_name + ".png")
 
 
 def main():
@@ -60,12 +59,13 @@ def main():
     # Parse the command-line arguments
     args = parser.parse_args()
 
-    model_name = os.path.splitext(os.path.basename(args.y_pred_path))[0].split('_')[-1]
-
+    model_name = \
+        os.path.splitext(os.path.basename(args.y_pred_path))[0].split('_')[-1]
 
     # Run the evaluation
     evaluate(args.y_true_path, args.y_pred_path)
-    plot_confusion_matrix(args.y_true_path, args.y_pred_path, model_name=model_name)
+    plot_confusion_matrix(args.y_true_path, args.y_pred_path,
+                          model_name=model_name)
 
 
 if __name__ == '__main__':
