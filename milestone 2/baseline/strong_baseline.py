@@ -1,40 +1,14 @@
-<<<<<<< HEAD
 import os
-=======
-
-from dataset import dataset
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize 
-from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, ConfusionMatrixDisplay
-from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
-from torch.utils.data import  Dataset, DataLoader
-import gensim.downloader as api
-import matplotlib.pyplot as plt
-import nltk
->>>>>>> a35e8a7576fe147d05be55606cc4629e55767c64
 import numpy as np
 import pandas as pd
 import torch
 import random
 import torch.nn as nn
-
-<<<<<<< HEAD
 from math import inf
 from torch.utils.data import DataLoader, TensorDataset
-from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, \
-    ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 from dataset import dataset
-=======
-torch.manual_seed(0)
-nltk.download("stopwords")
-
-# loading dataset
-FNC_PATH="./dataset/FNC-1"
-LIAR_PATH="./dataset/LIAR/"
-ds = dataset(FNC_PATH=FNC_PATH, LIAR_PATH=LIAR_PATH, word2vec=False)
-train_df, val_df, test_df = ds(dataset="LIAR", all = True)
->>>>>>> a35e8a7576fe147d05be55606cc4629e55767c64
 
 
 def seed_everything(seed=0):
@@ -43,7 +17,7 @@ def seed_everything(seed=0):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)  # if you are using multi-GPU.
+    torch.cuda.manual_seed_all(seed)            # if you are using multi-GPU.
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
 
@@ -210,4 +184,3 @@ plt.ylabel('Loss')
 plt.legend()
 plt.savefig('./plots/lstm_loss.png')
 plt.show()
-
