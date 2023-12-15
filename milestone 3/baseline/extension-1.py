@@ -1,4 +1,5 @@
 # encoding=utf-8
+import gdown
 import torch
 import numpy as np
 import pandas as pd
@@ -253,9 +254,14 @@ if __name__ == "__main__":
         "bert-base-uncased", num_labels=2, num_hidden_layers=2)
     model = model.to(device)
     train(model, train_loader, val_loader, device)
-    accuracy = test(model, './output/bert_model_best.pth',
-                    test_loader, device)
-    """    
+
+    '''    
+    url = 'https://drive.google.com/uc?id=1IAMOuCcaY6XwhW4zLvI1aSk01IDhLHwV'
+    output = './output'
+    gdown.download(url, output, quiet=False)
+    accuracy = test(model, './output/bert_model_best.pth', test_loader, device)
+    '''
+
     best_accuracy = 0.0
     best_model_path = ""
     for epoch_idx in range(5):
@@ -267,7 +273,7 @@ if __name__ == "__main__":
             best_model_path = f'./output/bert_model_pair_new_{epoch_idx}.pth'
 
     print(f"Best Model Path: {best_model_path} with Accuracy: {best_accuracy}")
-    """
+
     evaluate("./output/y_test_bert.npy",
              "./output/y_pred_bert.npy")
     plot_confusion_matrix("./output/y_test_bert.npy",
