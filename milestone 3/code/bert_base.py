@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from dataset import dataset
-from datasets import Dataset # converting df to transformer dataset
 from transformers import pipeline
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-from transformers import Trainer, TrainingArguments
-from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, ConfusionMatrixDisplay
-import numpy as np
+from transformers import AutoTokenizer
+from sklearn.metrics import accuracy_score, f1_score
 import os
 import torch
 import warnings
