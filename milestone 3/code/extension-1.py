@@ -1,23 +1,27 @@
 # encoding=utf-8
-import gdown
-import torch
+from math import inf
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import torch.nn as nn
-import matplotlib.pyplot as plt
 import seaborn as sns
-from math import inf
-from tqdm import tqdm
-from collections import Counter
-from torch.utils.data import DataLoader, TensorDataset
+import torch
 from sklearn.metrics import accuracy_score, precision_score, recall_score, \
-    confusion_matrix, f1_score, ConfusionMatrixDisplay
+    confusion_matrix, f1_score
+from torch.utils.data import DataLoader
+from tqdm import tqdm
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
     get_linear_schedule_with_warmup
 
+import gdown
+import nltk
 from dataset import dataset
 
+nltk.download('punkt')
+
 torch.cuda.manual_seed(0)
+
+EPOCHS = 5
 
 
 # Prepare Data
@@ -57,7 +61,7 @@ def train(model,
           train_dataloader: DataLoader,
           val_dataloader: DataLoader,
           device,
-          epochs: int = 5):
+          epochs: int = EPOCHS):
     best_f1_score = 0.0
     train_loss_records = []
     val_loss_records = []
@@ -152,7 +156,7 @@ def train(model,
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
     plt.legend()
-    plt.savefig('./plots/lstm_loss.png')
+    plt.savefig('./plots/bert_loss.png')
     plt.show()
 
 
@@ -187,14 +191,15 @@ def test(model,
     recall = round(recall_score(total_truth_labels, pred_truth_labels), 4)
     f1 = round(f1_score(total_truth_labels, pred_truth_labels), 4)
 
-    np.save("./output/y_test_bert.npy", total_truth_labels)
+    np.save("./output/y_test_bert.npy",
+            total_truth_labels)
     np.save("./output/y_pred_bert.npy", pred_truth_labels)
 
     print(f"accuracy: {accuracy}, "
           f"precision: {precision}, "
           f"recall: {recall}, f1: {f1}")
 
-    return accuracy
+    return accuracy, f1
 
 
 def evaluate(y_true_path, y_pred_path):
@@ -255,26 +260,40 @@ if __name__ == "__main__":
     model = model.to(device)
     train(model, train_loader, val_loader, device)
 
-    '''    
     url = 'https://drive.google.com/uc?id=1IAMOuCcaY6XwhW4zLvI1aSk01IDhLHwV'
-    output = './output'
-    gdown.download(url, output, quiet=False)
-    accuracy = test(model, './output/bert_model_best.pth', test_loader, device)
-    '''
-
-    best_accuracy = 0.0
-    best_model_path = ""
-    for epoch_idx in range(5):
-        accuracy = test(model, './output/bert_model_pair_new_{epoch_idx}.pth',
-                        test_loader, device)
-
-        if accuracy > best_accuracy:
-            best_accuracy = accuracy
-            best_model_path = f'./output/bert_model_pair_new_{epoch_idx}.pth'
-
-    print(f"Best Model Path: {best_model_path} with Accuracy: {best_accuracy}")
-
+    output_path = './output/bert_model_best.pth'
+    gdown.download(url, output_path, quiet=False)
+    accuracy, f1 = test(model, output_path, test_loader, device)
+    print(
+        f"Best Model Path: {output_path} with Accuracy: {accuracy}, f1 score: {f1}")
     evaluate("./output/y_test_bert.npy",
              "./output/y_pred_bert.npy")
     plot_confusion_matrix("./output/y_test_bert.npy",
-                          "./output/y_pred_bert.npy")
+                          "./output/y_pred_bert.npy",
+                          model_name="pre_found_bert_model_best")
+
+    best_score = 0.0
+    best_accuracy = 0.0
+    best_f1 = 0.0
+    best_model_path = ""
+    for epoch_idx in range(EPOCHS):
+        accuracy, f1 = test(model,
+                            f'./output/bert_model_pair_new_{epoch_idx}.pth',
+                            test_loader, device)
+
+        score = 0.5 * accuracy + 0.5 * f1
+
+        if score > best_score:
+            best_score = score
+            best_accuracy = accuracy
+            best_f1 = f1
+            best_model_path = f'./output/bert_model_pair_new_{epoch_idx}.pth'
+
+    print(f"Best Model Path: {best_model_path} with Accuracy: {best_accuracy}, f1 score: {best_f1}")
+
+    accuracy, f1 = test(model, best_model_path, test_loader, device)
+    evaluate("./output/y_test_bert.npy",
+             "./output/y_pred_bert.npy")
+    plot_confusion_matrix("./output/y_test_bert.npy",
+                          "./output/y_pred_bert.npy",
+                          model_name="bert_model_best")
