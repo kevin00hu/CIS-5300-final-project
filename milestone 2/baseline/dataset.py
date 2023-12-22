@@ -3,11 +3,13 @@ from collections import Counter
 from nltk.tokenize import word_tokenize
 from typing import List
 import gensim.downloader as api
+import nltk
 import numpy as np
 import os
 import pandas as pd
 import warnings
 warnings.filterwarnings("ignore")
+nltk.download("stopwords")
 
 
 class dataset:

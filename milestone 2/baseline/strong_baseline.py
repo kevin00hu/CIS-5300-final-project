@@ -13,7 +13,6 @@ import torch
 import torch.nn as nn
 
 torch.manual_seed(6666)
-nltk.download("stopwords")
 
 # loading dataset
 FNC_PATH="./dataset/FNC-1"
