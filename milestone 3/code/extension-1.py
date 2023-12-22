@@ -14,10 +14,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer, \
     get_linear_schedule_with_warmup
 
 import gdown
-import nltk
 from dataset import dataset
-
-nltk.download('punkt')
 
 torch.cuda.manual_seed(0)
 

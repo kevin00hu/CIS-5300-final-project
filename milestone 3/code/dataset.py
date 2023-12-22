@@ -7,7 +7,8 @@ import numpy as np
 import os
 import pandas as pd
 import warnings
-
+import nltk
+nltk.download('punkt')
 warnings.filterwarnings("ignore")
 
 
