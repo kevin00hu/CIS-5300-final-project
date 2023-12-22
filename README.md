@@ -11,6 +11,8 @@ Fake news detection algorithms play a pivotal role in safeguarding the integrity
 - [Zhixuan Li](https://github.com/zhxabi)
 
 ## structure
+Presentation, report, Powerpoints can be accessed through [google drive](https://drive.google.com/drive/folders/1Gp8-Qhki_MCQ60znhnus3wIcmxrO8YaT)
+
 
 ### milestone 1
 It contains the [data](milestone%201/dataset/data.md) we used for this project: 
