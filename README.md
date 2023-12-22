@@ -13,7 +13,7 @@ Fake news detection algorithms play a pivotal role in safeguarding the integrity
 ## structure
 
 ### milestone 1
-It contains the [data](https://github.com/kevin00hu/CIS-5300-final-project/blob/master/milestone%201/dataset/data.md) we used for this project: 
+It contains the [data](milestone%201/dataset/data.md) we used for this project: 
 - [FNC](http://www.fakenewschallenge.org/) 
 - [LIAR](https://www.cs.ucsb.edu/~william/data/liar_dataset.zip)
 
@@ -21,13 +21,13 @@ It contains the [data](https://github.com/kevin00hu/CIS-5300-final-project/blob/
 It contains two baseline models: 
 - A 4-layers Feed Forward Neural Network with only LIAR features: `baseline.py`
 - A 4-layers Feed Forward Neural Network with LIAR features + feature extract from LIAR using model trained with FNC data: `baseline_FNC_model.ipynb`
-- [Result](https://github.com/kevin00hu/CIS-5300-final-project/blob/master/milestone%202/baseline/score.md) for those models.
+- [Result](milestone%202/baseline/score.md) for those models.
   
 ### milestone 3
 It contains two BERT models:
 - basic bert model: `bert_base.py`
 - fine-tuned bert model: `extension-1.py`
-- [Result](https://github.com/kevin00hu/CIS-5300-final-project/blob/master/milestone%203/code/score.md) for thsoe models.
+- [Result](milestone%203/code/score.md) for thsoe models.
 
 ### milestone 4
 It contains a BERT + LSTM model:
