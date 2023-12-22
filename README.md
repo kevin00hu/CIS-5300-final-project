@@ -31,3 +31,5 @@ It contains two BERT models:
 
 ### milestone 4
 It contains a BERT + LSTM model:
+- BERT + LSTM model: `extension-2.py`
+- [Result](milestone%204/code/score.md)
