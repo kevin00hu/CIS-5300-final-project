@@ -27,7 +27,7 @@ It contains two baseline models:
 It contains two BERT models:
 - basic bert model: `bert_base.py`
 - fine-tuned bert model: `extension-1.py`
-- [Result](milestone%203/code/score.md) for thsoe models.
+- [Result](milestone%203/code/score.md) for those models.
 
 ### milestone 4
 It contains a BERT + LSTM model:
