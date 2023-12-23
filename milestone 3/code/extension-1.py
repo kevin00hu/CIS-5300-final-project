@@ -257,8 +257,9 @@ if __name__ == "__main__":
     model = model.to(device)
     train(model, train_loader, val_loader, device)
 
-    url = 'https://drive.google.com/file/d/1-SfBRZo9bISNgnm2c9lgqJOrGkjurqFM'
-    output_path = './output/bert_model_best.pth'
+    file_id = '1-SfBRZo9bISNgnm2c9lgqJOrGkjurqFM'
+    output_path = '/content/drive/MyDrive/output/bert_model_best.pth'
+    url = f'https://drive.google.com/uc?id={file_id}'
     gdown.download(url, output_path, quiet=False)
     accuracy, f1 = test(model, output_path, test_loader, device)
     print(

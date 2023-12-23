@@ -175,15 +175,15 @@ def train(model,
 
         last_val_loss = val_loss_records[-1]
 
-        # Plotting Loss
-        plt.figure()
-        plt.plot(train_loss_records, label='Train Loss')
-        plt.plot(val_loss_records, label='Validation Loss')
-        plt.xlabel('Epochs')
-        plt.ylabel('Loss')
-        plt.legend()
-        plt.savefig('./plots/bert_lstm_pair_loss.png')
-        plt.show()
+    # Plotting Loss
+    plt.figure()
+    plt.plot(train_loss_records, label='Train Loss')
+    plt.plot(val_loss_records, label='Validation Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.savefig('./plots/bert_lstm_pair_loss.png')
+    plt.show()
 
 
 def test(model,
@@ -265,8 +265,6 @@ def plot_confusion_matrix(y_true_path, y_pred_path, binary=1, model_name=""):
 
 
 if __name__ == "__main__":
-    # seed_everything()
-
     # Initialize Dataset
     ds = dataset()
     _, _, train_dataset = prepare_data(ds, "train")
@@ -283,8 +281,9 @@ if __name__ == "__main__":
     model = model.to(device)
     train(model, train_loader, test_loader, device)
 
-    url = 'https://drive.google.com/file/d/1wOvasR_wTBZUkEAFtgupgoIFsL_jR1hC'
+    file_id = '1wOvasR_wTBZUkEAFtgupgoIFsL_jR1hC'
     output_path = './output/bert_lstm_model_best.pth'
+    url = f'https://drive.google.com/uc?id={file_id}'
     gdown.download(url, output_path, quiet=False)
     accuracy, f1 = test(model, output_path, test_loader, device)
     print(
@@ -301,7 +300,7 @@ if __name__ == "__main__":
     best_model_path = ""
     for epoch_idx in range(EPOCHS):
         accuracy, f1 = test(model,
-                            f'./output/bert_lstm_model_pair_new_{epoch_idx}.pth',
+                            f'./output/bert_lstm_model_pair_{epoch_idx}.pth',
                             test_loader, device)
 
         score = 0.5 * accuracy + 0.5 * f1
@@ -310,7 +309,7 @@ if __name__ == "__main__":
             best_score = score
             best_accuracy = accuracy
             best_f1 = f1
-            best_model_path = f'./output/bert_lstm_model_pair_new_{epoch_idx}.pth'
+            best_model_path = f'./output/bert_lstm_model_pair_{epoch_idx}.pth'
 
     print(
         f"Best Model Path: {best_model_path} with Accuracy: {best_accuracy}, f1 score: {best_f1}")
@@ -320,4 +319,6 @@ if __name__ == "__main__":
              "./output/y_pred_extension_2.npy")
     plot_confusion_matrix(
         "./output/y_truth_extension_2.npy",
-        "./output/y_pred_extension_2.npy")
+        "./output/y_pred_extension_2.npy",
+        model_name="bert_lstm_model_best")
+
